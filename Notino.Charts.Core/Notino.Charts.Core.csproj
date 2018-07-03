@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Notino.Charts</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SemanticVersioning" Version="1.1.0" />
+  </ItemGroup>
 
 </Project>

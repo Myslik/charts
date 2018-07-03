@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notino.Charts.Core", "Notino.Charts.Core\Notino.Charts.Core.csproj", "{3EC09C8F-52A9-4498-8B91-EE9C3D4E59E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notino.Charts.Core", "Notino.Charts.Core\Notino.Charts.Core.csproj", "{3EC09C8F-52A9-4498-8B91-EE9C3D4E59E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notino.Charts.Storage", "Notino.Charts.Storage\Notino.Charts.Storage.csproj", "{4CFFA3D1-3C68-47AB-A738-C9FCE601F5B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notino.Charts.Test", "Notino.Charts.Test\Notino.Charts.Test.csproj", "{43B27ABC-F6F2-4A96-88DC-9485DC4380E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notino.Charts.Web", "Notino.Charts.Web\Notino.Charts.Web.csproj", "{7095342F-E30D-40F9-9938-55C30F17D59E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{3EC09C8F-52A9-4498-8B91-EE9C3D4E59E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EC09C8F-52A9-4498-8B91-EE9C3D4E59E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EC09C8F-52A9-4498-8B91-EE9C3D4E59E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CFFA3D1-3C68-47AB-A738-C9FCE601F5B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CFFA3D1-3C68-47AB-A738-C9FCE601F5B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CFFA3D1-3C68-47AB-A738-C9FCE601F5B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CFFA3D1-3C68-47AB-A738-C9FCE601F5B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43B27ABC-F6F2-4A96-88DC-9485DC4380E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43B27ABC-F6F2-4A96-88DC-9485DC4380E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43B27ABC-F6F2-4A96-88DC-9485DC4380E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43B27ABC-F6F2-4A96-88DC-9485DC4380E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7095342F-E30D-40F9-9938-55C30F17D59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7095342F-E30D-40F9-9938-55C30F17D59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7095342F-E30D-40F9-9938-55C30F17D59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7095342F-E30D-40F9-9938-55C30F17D59E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
