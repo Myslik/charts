@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Notino.Charts.Queries;
-using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 

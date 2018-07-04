@@ -1,23 +1,24 @@
 ﻿using Notino.Charts.Domain;
 using Notino.Charts.Helm;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Notino.Charts.Queries
 {
-    public class GetChartsHandler : IGetChartsHandler
+    public class GetChartHandler : IGetChartHandler
     {
         private readonly IHelmClient helmClient;
 
-        public GetChartsHandler(IHelmClient helmClient)
+        public GetChartHandler(IHelmClient helmClient)
         {
             this.helmClient = helmClient ?? throw new ArgumentNullException(nameof(helmClient));
         }
 
-        public async Task<IEnumerable<Chart>> HandleAsync(GetCharts query)
+        public async Task<Chart> HandleAsync(GetChart query)
         {
-            return ChartExtensions.GetCharts(await helmClient.Index());
+            var charts = ChartExtensions.GetCharts(await helmClient.Index());
+            return charts.Single(c => c.Name == query.ChartName);
         }
     }
 }

@@ -12,8 +12,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IFileSystem>(new FileSystem(path));
             services.AddSingleton<IHelmClient, HelmClient>();
             services.AddTransient<IUploadChartHandler, UploadChartHandler>();
-            services.AddTransient<IGetChartIndexYamlHandler, GetChartIndexYamlHandler>();
             services.AddTransient<IGetChartsHandler, GetChartsHandler>();
+            services.AddTransient<IGetChartHandler, GetChartHandler>();
+            services.AddTransient<IGetChartIndexYamlHandler, GetChartIndexYamlHandler>();
+            services.AddTransient<IGetChartReadmeHandler, GetChartReadmeHandler>();
         }
     }
 }

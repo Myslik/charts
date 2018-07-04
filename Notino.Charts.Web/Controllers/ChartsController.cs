@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Notino.Charts.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ChartsController : Controller
     {
         private readonly IMemoryCache memoryCache;

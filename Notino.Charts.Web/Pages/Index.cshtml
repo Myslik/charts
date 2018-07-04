@@ -5,15 +5,13 @@
 }
 
 <div class="row">
-    <div class="card-deck">
-        @foreach (var chart in Model.Charts)
-        {
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@chart.Name</h5>
-                    <p class="card-text">@chart.Description</p>
-                </div>
+    @foreach (var chart in Model.Charts)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title"><a asp-page="./Chart" asp-route-name="@chart.Name">@chart.Name</a></h5>
+                <p class="card-text">@chart.Description</p>
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>

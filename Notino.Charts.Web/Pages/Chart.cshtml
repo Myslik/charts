@@ -1,0 +1,32 @@
+﻿@page "{name}"
+@model Notino.Charts.Web.Pages.ChartModel
+@{
+    ViewData["Title"] = "Chart";
+}
+
+<img alt="logo" src="@Model.Chart.Icon" class="rounded float-left" style="width: 100px; height: 100px;" />
+<a href="@Model.Chart.Home" class="float-right">@Model.Chart.Home</a>
+
+<h1 class="display-3">@Model.Chart.Name</h1>
+<hr />
+
+<p>@Model.Chart.Description</p>
+
+<div class="row">
+    <div class="col-sm-8">
+        @Html.Raw(Model.Readme)
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Chart Versions</h5>
+                <ul class="list-unstyled">
+                    @foreach (var release in Model.Chart.Releases)
+                    {
+                        <li>@release.Version.ToString()</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

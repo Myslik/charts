@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Notino.Charts.Queries
 {
-    public class GetChartReleases : IQuery<IEnumerable<ChartRelease>>
+    public class GetChart : IQuery<Chart>
     {
-        public GetChartReleases(string chartName)
+        public GetChart(string chartName)
         {
             ChartName = chartName ?? throw new ArgumentNullException(nameof(chartName));
         }

@@ -1,12 +1,7 @@
-﻿using Notino.Charts.Domain;
-using Notino.Charts.IO;
-using System.Collections.Generic;
+﻿using Notino.Charts.IO;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace Notino.Charts.Helm
 {
@@ -21,44 +16,38 @@ namespace Notino.Charts.Helm
 
         public async Task<string> Index()
         {
-            var exitCode = await RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
-            if (exitCode != 0)
+            var result = await RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
+            if (result.ExitCode != 0)
             {
-                throw new HelmException($"Helm application returned non-zero exit code ({exitCode})");
+                throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
             }
             return await fileSystem.ReadIndexAsync();
         }
 
-        public async Task<IEnumerable<Chart>> GetCharts()
+        public async Task<string> Readme(string chartName, string version)
         {
-            var input = new StringReader(await Index());
-
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(new CamelCaseNamingConvention())
-                .IgnoreUnmatchedProperties()
-                .Build();
-
-            var index = deserializer.Deserialize<HelmIndex>(input);
-
-            if (index.ApiVersion != "v1")
+            var result = await RunProcessAsync("helm", $"inspect readme {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
+            if (result.ExitCode != 0)
             {
-                throw new HelmException("Only v1 apiVersion is supported");
+                throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
             }
-
-            return index.Entries.Select(kv =>
-            {
-                return new Chart(kv.Key) { Description = kv.Value.Last()?.Description };
-            });
+            return result.Output;
         }
 
-        static Task<int> RunProcessAsync(string fileName, string arguments)
+        static async Task<ProcessResult> RunProcessAsync(string fileName, string arguments)
         {
             var tcs = new TaskCompletionSource<int>();
+            var output = new StringBuilder();
 
             var process = new Process
             {
-                StartInfo = { FileName = fileName, Arguments = arguments },
+                StartInfo = { FileName = fileName, Arguments = arguments, UseShellExecute = false, RedirectStandardOutput = true },
                 EnableRaisingEvents = true
+            };
+
+            process.OutputDataReceived += (sender, args) =>
+            {
+                output.AppendLine(args.Data);
             };
 
             process.Exited += (sender, args) =>
@@ -68,21 +57,23 @@ namespace Notino.Charts.Helm
             };
 
             process.Start();
+            process.BeginOutputReadLine();
 
-            return tcs.Task;
+            var exitCode = await tcs.Task;
+
+            return new ProcessResult(exitCode, output.ToString());
         }
 
-        class HelmIndex
+        class ProcessResult
         {
-            public string ApiVersion { get; set; }
-            public Dictionary<string, IEnumerable<HelmEntry>> Entries { get; set; }
-        }
+            public ProcessResult(int exitCode, string output)
+            {
+                ExitCode = exitCode;
+                Output = output;
+            }
 
-        class HelmEntry
-        {
-            public string Name { get; set; }
-            public string Version { get; set; }
-            public string Description { get; set; }
+            public int ExitCode { get; }
+            public string Output { get; }
         }
     }
 }
