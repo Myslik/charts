@@ -1,6 +1,10 @@
-﻿using Notino.Charts.IO;
-using System.Diagnostics;
-using System.Text;
+﻿using CsvHelper;
+using Notino.Charts.Domain;
+using Notino.Charts.IO;
+using Notino.Charts.Runner;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,11 +13,15 @@ namespace Notino.Charts.Helm
     public class HelmClient : IHelmClient
     {
         private readonly IFileSystem fileSystem;
+        private readonly IProcessRunner processRunner;
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public HelmClient(IFileSystem fileSystem)
+        public HelmClient(
+            IFileSystem fileSystem,
+            IProcessRunner processRunner)
         {
             this.fileSystem = fileSystem ?? throw new System.ArgumentNullException(nameof(fileSystem));
+            this.processRunner = processRunner ?? throw new System.ArgumentNullException(nameof(processRunner));
         }
 
         public async Task<string> Index()
@@ -21,7 +29,7 @@ namespace Notino.Charts.Helm
             await semaphoreSlim.WaitAsync();
             try
             {
-                var result = await RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
+                var result = await processRunner.RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
                 if (result.ExitCode != 0)
                 {
                     throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
@@ -34,56 +42,23 @@ namespace Notino.Charts.Helm
             }
         }
 
+        public async Task<IEnumerable<HelmRelease>> List()
+        {
+            var result = await processRunner.RunProcessAsync("helm", $"ls");
+            var csv = new CsvReader(new StringReader(result.Output));
+            csv.Configuration.RegisterClassMap<ReleaseMap>();
+            var records = csv.GetRecords<Release>();
+            return records.Select(c => new HelmRelease(c.Name, new Chart(c.Chart), "default"));
+        }
+
         public async Task<string> Readme(string chartName, string version)
         {
-            var result = await RunProcessAsync("helm", $"inspect readme {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
+            var result = await processRunner.RunProcessAsync("helm", $"inspect readme {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
             if (result.ExitCode != 0)
             {
                 throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
             }
             return result.Output;
-        }
-
-        static async Task<ProcessResult> RunProcessAsync(string fileName, string arguments)
-        {
-            var tcs = new TaskCompletionSource<int>();
-            var output = new StringBuilder();
-
-            var process = new Process
-            {
-                StartInfo = { FileName = fileName, Arguments = arguments, UseShellExecute = false, RedirectStandardOutput = true },
-                EnableRaisingEvents = true
-            };
-
-            process.OutputDataReceived += (sender, args) =>
-            {
-                output.AppendLine(args.Data);
-            };
-
-            process.Exited += (sender, args) =>
-            {
-                tcs.SetResult(process.ExitCode);
-                process.Dispose();
-            };
-
-            process.Start();
-            process.BeginOutputReadLine();
-
-            var exitCode = await tcs.Task;
-
-            return new ProcessResult(exitCode, output.ToString());
-        }
-
-        class ProcessResult
-        {
-            public ProcessResult(int exitCode, string output)
-            {
-                ExitCode = exitCode;
-                Output = output;
-            }
-
-            public int ExitCode { get; }
-            public string Output { get; }
         }
     }
 }

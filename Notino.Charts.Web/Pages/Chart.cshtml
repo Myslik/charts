@@ -1,16 +1,22 @@
-﻿@page "{name}"
+﻿@page "{name}/{version?}"
 @model Notino.Charts.Web.Pages.ChartModel
 @{
-    ViewData["Title"] = "Chart";
+    ViewData["Title"] = Model.Chart.Name;
 }
 
-<img alt="logo" src="@Model.Chart.Icon" class="rounded float-left" style="width: 100px; height: 100px;" />
-<a href="@Model.Chart.Home" class="float-right">@Model.Chart.Home</a>
+@if (Model.Release.Icon != null)
+{
+    <img alt="logo" src="@Model.Release.Icon" class="rounded float-left" style="width: 100px; height: 100px;" />
+}
+@if (Model.Release.Home != null)
+{
+    <a href="@Model.Release.Home" class="float-right">@Model.Release.Home</a>
+}
 
 <h1 class="display-3">@Model.Chart.Name</h1>
 <hr />
 
-<p>@Model.Chart.Description</p>
+<p>@Model.Release.Description</p>
 
 <div class="row">
     <div class="col-sm-8">
@@ -23,7 +29,14 @@
                 <ul class="list-unstyled">
                     @foreach (var release in Model.Chart.Releases)
                     {
-                        <li>@release.Version.ToString()</li>
+                        if (Model.Release.Version == release.Version)
+                        {
+                            <li><strong><a asp-page="./Chart" asp-route-name="@Model.Chart.Name" asp-route-version="@release.Version.ToString()">@release.Version.ToString()</a></strong></li>
+                        }
+                        else
+                        {
+                            <li><a asp-page="./Chart" asp-route-name="@Model.Chart.Name" asp-route-version="@release.Version.ToString()">@release.Version.ToString()</a></li>
+                        }
                     }
                 </ul>
             </div>

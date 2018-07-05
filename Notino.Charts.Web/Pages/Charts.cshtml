@@ -1,0 +1,21 @@
+﻿@page
+@model Notino.Charts.Web.Pages.ChartsModel
+@{
+    ViewData["Title"] = "Charts";
+}
+
+<h1 class="display-3">Charts</h1>
+<hr />
+
+<div class="row">
+    @foreach (var chart in Model.Charts)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title"><a asp-page="./Chart" asp-route-name="@chart.Name">@chart.Name</a></h5>
+                <p class="card-text">@chart.Description</p>
+            </div>
+        </div>
+    }
+</div>
+

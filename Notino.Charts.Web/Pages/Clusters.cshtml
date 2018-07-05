@@ -1,0 +1,19 @@
+﻿@page
+@model Notino.Charts.Web.Pages.ClustersModel
+@{
+    ViewData["Title"] = "Clusters";
+}
+
+<h1 class="display-3">Clusters</h1>
+<hr />
+
+<div class="row">
+    @foreach (var cluster in Model.Clusters)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title"><a asp-page="./Cluster" asp-route-name="@cluster.Name">@cluster.Name</a></h5>
+            </div>
+        </div>
+    }
+</div>

@@ -4,14 +4,37 @@
     ViewData["Title"] = "Home page";
 }
 
+<div class="text-center">
+    <h1 class="display-1">Notino Charts Server</h1>
+    <p class="lead">Manage, approve and deploy internally developed charts into Kubernetes.</p>
+</div>
+
 <div class="row">
-    @foreach (var chart in Model.Charts)
-    {
-        <div class="card" style="width: 18rem;">
+    <div class="col-md-4">
+        <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><a asp-page="./Chart" asp-route-name="@chart.Name">@chart.Name</a></h5>
-                <p class="card-text">@chart.Description</p>
+                <h2 class="card-title">Charts</h2>
+                <p>View charts published to this server.</p>
+                <p><a class="btn btn-dark" asp-page="/Charts" role="button">View charts »</a></p>
             </div>
         </div>
-    }
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Releases</h2>
+                <p>View deployments of your charts.</p>
+                <p><a class="btn btn-dark" asp-page="/Releases" role="button">View releases »</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Clusters</h2>
+                <p>View Kubernetes clusters where you can deploy your charts.</p>
+                <p><a class="btn btn-dark" asp-page="/Clusters" role="button">View clusters »</a></p>
+            </div>
+        </div>
+    </div>
 </div>
