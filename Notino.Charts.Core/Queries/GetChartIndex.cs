@@ -2,7 +2,7 @@
 
 namespace Notino.Charts.Queries
 {
-    public class GetChartIndexYaml : IQuery<string>
+    public class GetChartIndex : IQuery<string>
     {
     }
 }

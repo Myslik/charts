@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Queries
+namespace Notino.Charts.Queries.Handlers
 {
     public class GetChartReadmeHandler : IGetChartReadmeHandler
     {

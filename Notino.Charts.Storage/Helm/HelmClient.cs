@@ -1,6 +1,7 @@
 ﻿using Notino.Charts.IO;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Notino.Charts.Helm
@@ -8,6 +9,7 @@ namespace Notino.Charts.Helm
     public class HelmClient : IHelmClient
     {
         private readonly IFileSystem fileSystem;
+        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public HelmClient(IFileSystem fileSystem)
         {
@@ -16,12 +18,20 @@ namespace Notino.Charts.Helm
 
         public async Task<string> Index()
         {
-            var result = await RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
-            if (result.ExitCode != 0)
+            await semaphoreSlim.WaitAsync();
+            try
             {
-                throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
+                var result = await RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
+                if (result.ExitCode != 0)
+                {
+                    throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
+                }
+                return await fileSystem.ReadIndexAsync();
             }
-            return await fileSystem.ReadIndexAsync();
+            finally
+            {
+                semaphoreSlim.Release();
+            }
         }
 
         public async Task<string> Readme(string chartName, string version)

@@ -1,4 +1,4 @@
-﻿namespace Notino.Charts.Queries
+﻿namespace Notino.Charts.Queries.Handlers
 {
     public interface IGetChartReadmeHandler : IQueryHandler<GetChartReadme, string>
     {

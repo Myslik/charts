@@ -1,7 +1,7 @@
-﻿using Notino.Charts.Commands;
+﻿using Notino.Charts.Commands.Handlers;
 using Notino.Charts.Helm;
 using Notino.Charts.IO;
-using Notino.Charts.Queries;
+using Notino.Charts.Queries.Handlers;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IUploadChartHandler, UploadChartHandler>();
             services.AddTransient<IGetChartsHandler, GetChartsHandler>();
             services.AddTransient<IGetChartHandler, GetChartHandler>();
-            services.AddTransient<IGetChartIndexYamlHandler, GetChartIndexYamlHandler>();
+            services.AddTransient<IGetChartIndexHandler, GetChartIndexHandler>();
             services.AddTransient<IGetChartReadmeHandler, GetChartReadmeHandler>();
         }
     }

@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Commands
+namespace Notino.Charts.Commands.Handlers
 {
     public class UploadChartHandler : IUploadChartHandler
     {

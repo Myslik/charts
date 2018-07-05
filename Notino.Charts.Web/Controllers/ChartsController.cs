@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Notino.Charts.Commands;
+using Notino.Charts.Commands.Handlers;
 using Notino.Charts.Queries;
+using Notino.Charts.Queries.Handlers;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +15,12 @@ namespace Notino.Charts.Web.Controllers
     public class ChartsController : Controller
     {
         private readonly IMemoryCache memoryCache;
-        private readonly IGetChartIndexYamlHandler getChartIndexFile;
+        private readonly IGetChartIndexHandler getChartIndexFile;
         private readonly IUploadChartHandler uploadChart;
 
         public ChartsController(
             IMemoryCache memoryCache,
-            IGetChartIndexYamlHandler getChartIndexFile,
+            IGetChartIndexHandler getChartIndexFile,
             IUploadChartHandler uploadChart)
         {
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
@@ -31,7 +33,7 @@ namespace Notino.Charts.Web.Controllers
         {
             var indexFile = await memoryCache.GetOrCreateAsync("index.yaml", async e =>
             {
-                return await getChartIndexFile.HandleAsync(new GetChartIndexYaml());
+                return await getChartIndexFile.HandleAsync(new GetChartIndex());
             });
             return new FileContentResult(Encoding.UTF8.GetBytes(indexFile), "text/yaml");
         }

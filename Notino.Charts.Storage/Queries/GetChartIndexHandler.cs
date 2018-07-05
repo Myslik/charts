@@ -1,18 +1,18 @@
 ﻿using Notino.Charts.Helm;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Queries
+namespace Notino.Charts.Queries.Handlers
 {
-    public class GetChartIndexYamlHandler : IGetChartIndexYamlHandler
+    public class GetChartIndexHandler : IGetChartIndexHandler
     {
         private readonly IHelmClient helmClient;
 
-        public GetChartIndexYamlHandler(IHelmClient helmClient)
+        public GetChartIndexHandler(IHelmClient helmClient)
         {
             this.helmClient = helmClient ?? throw new System.ArgumentNullException(nameof(helmClient));
         }
 
-        public async Task<string> HandleAsync(GetChartIndexYaml query)
+        public async Task<string> HandleAsync(GetChartIndex query)
         {
             return await helmClient.Index();
         }

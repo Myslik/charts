@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Queries
+namespace Notino.Charts.Queries.Handlers
 {
     public class GetChartHandler : IGetChartHandler
     {
