@@ -18,7 +18,7 @@ namespace Notino.Charts.Web.Pages
             this.getClustersHandler = getClustersHandler ?? throw new ArgumentNullException(nameof(getClustersHandler));
         }
 
-        public IEnumerable<KubernetesCluster> Clusters { get; private set; }
+        public IEnumerable<KubernetesContext> Clusters { get; private set; }
 
         public async Task OnGet()
         {

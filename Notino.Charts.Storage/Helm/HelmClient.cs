@@ -46,6 +46,8 @@ namespace Notino.Charts.Helm
         {
             var result = await processRunner.RunProcessAsync("helm", $"ls");
             var csv = new CsvReader(new StringReader(result.Output));
+            csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.Trim;
+            csv.Configuration.Delimiter = "\t";
             csv.Configuration.RegisterClassMap<ReleaseMap>();
             var records = csv.GetRecords<Release>();
             return records.Select(c => new HelmRelease(c.Name, new Chart(c.Chart), "default"));

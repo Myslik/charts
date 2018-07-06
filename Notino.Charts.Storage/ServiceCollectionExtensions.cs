@@ -25,6 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IGetChartIndexHandler, GetChartIndexHandler>();
             services.AddTransient<IGetChartReadmeHandler, GetChartReadmeHandler>();
             services.AddTransient<IGetClustersHandler, GetClustersHandler>();
+            services.AddTransient<IGetReleasesHandler, GetReleasesHandler>();
         }
     }
 }

@@ -2,10 +2,10 @@
 using Notino.Charts.Runner;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using CsvHelper;
-using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Notino.Charts.Kubernetes
 {
@@ -18,13 +18,18 @@ namespace Notino.Charts.Kubernetes
             this.processRunner = processRunner ?? throw new ArgumentNullException(nameof(processRunner));
         }
 
-        public async Task<IEnumerable<KubernetesCluster>> GetClusters()
+        public async Task<IEnumerable<KubernetesContext>> GetContexts()
         {
-            var result = await processRunner.RunProcessAsync("kubectl", $"config get-clusters");
-            var csv = new CsvReader(new StringReader(result.Output));
-            csv.Configuration.RegisterClassMap<ClusterMap>();
-            var records = csv.GetRecords<Cluster>();
-            return records.Select(c => new KubernetesCluster(c.Name));
+            var result = await processRunner.RunProcessAsync("kubectl", $"config view");
+
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(new CamelCaseNamingConvention())
+                .IgnoreUnmatchedProperties()
+                .Build();
+
+            var config = deserializer.Deserialize<ConfigModel>(result.Output);
+
+            return config.Contexts.Select(c => new KubernetesContext(c.Name, config.Clusters.Single(k => k.Name == c.Context.Cluster).Cluster.Server));
         }
     }
 }

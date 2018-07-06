@@ -6,6 +6,6 @@ namespace Notino.Charts.Kubernetes
 {
     public interface IKubernetesClient
     {
-        Task<IEnumerable<KubernetesCluster>> GetClusters();
+        Task<IEnumerable<KubernetesContext>> GetContexts();
     }
 }

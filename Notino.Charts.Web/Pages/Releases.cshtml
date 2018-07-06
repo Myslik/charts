@@ -5,4 +5,29 @@
 }
 
 <h1 class="display-3">Releases</h1>
-<hr />
+
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Chart</th>
+                <th scope="col">Cluster</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var release in Model.Releases)
+            {
+                <tr>
+                    <td>@release.Name</td>
+                    <td>@release.Chart.Name</td>
+                    <td>@release.Cluster</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

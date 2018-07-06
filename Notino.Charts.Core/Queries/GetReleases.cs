@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Notino.Charts.Queries
 {
-    public class GetClusters : IQuery<IEnumerable<KubernetesContext>>
+    public class GetReleases : IQuery<IEnumerable<HelmRelease>>
     {
     }
 }

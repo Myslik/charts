@@ -1,0 +1,2 @@
+name                         server
+docker-for-desktop-cluster   https://localhost:6445

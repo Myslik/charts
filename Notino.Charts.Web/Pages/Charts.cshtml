@@ -5,15 +5,20 @@
 }
 
 <h1 class="display-3">Charts</h1>
-<hr />
 
 <div class="row">
     @foreach (var chart in Model.Charts)
     {
-        <div class="card" style="width: 18rem;">
+        <div class="card shadow" style="width: 18rem;">
+            <h4 class="card-header">
+                <a asp-page="./Chart" asp-route-name="@chart.Name">@chart.Name</a>
+            </h4>
             <div class="card-body">
-                <h5 class="card-title"><a asp-page="./Chart" asp-route-name="@chart.Name">@chart.Name</a></h5>
                 <p class="card-text">@chart.Description</p>
+                <a href="#" class="btn btn-primary">Install</a>
+            </div>
+            <div class="card-footer text-muted">
+                @chart.GetLastRelease().Version.ToString()
             </div>
         </div>
     }

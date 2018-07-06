@@ -16,9 +16,9 @@ namespace Notino.Charts.Queries.Handlers
             this.kubernetesClient = kubernetesClient ?? throw new ArgumentNullException(nameof(kubernetesClient));
         }
 
-        public async Task<IEnumerable<KubernetesCluster>> HandleAsync(GetClusters query)
+        public async Task<IEnumerable<KubernetesContext>> HandleAsync(GetClusters query)
         {
-            return await kubernetesClient.GetClusters();
+            return await kubernetesClient.GetContexts();
         }
     }
 }

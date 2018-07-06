@@ -7,7 +7,7 @@ namespace Notino.Charts.Helm
     {
         public string Name { get; set; }
         public int Revision { get; set; }
-        public DateTime Updated { get; set; }
+        public string Updated { get; set; }
         public string Status { get; set; }
         public string Chart { get; set; }
         public string Namespace { get; set; }
