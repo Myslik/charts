@@ -30,10 +30,6 @@ namespace Notino.Charts.Helm
             try
             {
                 var result = await processRunner.RunProcessAsync("helm", $"repo index {fileSystem.ChartDirectory}");
-                if (result.ExitCode != 0)
-                {
-                    throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
-                }
                 return await fileSystem.ReadIndexAsync();
             }
             finally
@@ -42,25 +38,37 @@ namespace Notino.Charts.Helm
             }
         }
 
-        public async Task<IEnumerable<HelmRelease>> List()
+        public async Task<string> Readme(string chartName, string version)
         {
-            var result = await processRunner.RunProcessAsync("helm", $"ls");
+            var result = await processRunner.RunProcessAsync("helm", $"inspect readme {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
+            return result.Output;
+        }
+
+        public async Task<IEnumerable<HelmRelease>> List(string kubeContext)
+        {
+            var result = await processRunner.RunProcessAsync("helm", $"ls --kube-context {kubeContext}");
             var csv = new CsvReader(new StringReader(result.Output));
             csv.Configuration.TrimOptions = CsvHelper.Configuration.TrimOptions.Trim;
             csv.Configuration.Delimiter = "\t";
             csv.Configuration.RegisterClassMap<ReleaseMap>();
             var records = csv.GetRecords<Release>();
-            return records.Select(c => new HelmRelease(c.Name, new Chart(c.Chart), "default"));
+            return records.Select(c =>
+                new HelmRelease(
+                    c.Name,
+                    new Chart(c.Chart),
+                    kubeContext,
+                    c.Revision,
+                    c.Status));
         }
 
-        public async Task<string> Readme(string chartName, string version)
+        public async Task Delete(string chartName, string kubeContext)
         {
-            var result = await processRunner.RunProcessAsync("helm", $"inspect readme {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
-            if (result.ExitCode != 0)
-            {
-                throw new HelmException($"Helm application returned non-zero exit code ({result.ExitCode})");
-            }
-            return result.Output;
+            await processRunner.RunProcessAsync("helm", $"delete --purge {chartName} --kube-context {kubeContext}");
+        }
+
+        public async Task Install(string chartName, string version, string releaseName, string kubeContext)
+        {
+            await processRunner.RunProcessAsync("helm", $"install {fileSystem.ChartDirectory}{chartName}-{version}.tgz --name {releaseName} --kube-context {kubeContext}");
         }
     }
 }

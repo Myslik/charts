@@ -4,11 +4,18 @@ namespace Notino.Charts.Domain
 {
     public class HelmRelease
     {
-        public HelmRelease(string name, Chart chart, string cluster)
+        public HelmRelease(
+            string name, 
+            Chart chart, 
+            string cluster,
+            int revision,
+            string status)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Chart = chart ?? throw new ArgumentNullException(nameof(chart));
             Cluster = cluster ?? throw new ArgumentNullException(nameof(cluster));
+            Revision = revision;
+            Status = status ?? throw new ArgumentNullException(nameof(status));
         }
 
         /// <summary>
@@ -23,5 +30,7 @@ namespace Notino.Charts.Domain
         /// Name of Kubernetes cluster as in ~/.kube/config
         /// </summary>
         public string Cluster { get; }
+        public int Revision { get; }
+        public string Status { get; }
     }
 }

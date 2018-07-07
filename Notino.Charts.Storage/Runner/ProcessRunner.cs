@@ -33,6 +33,11 @@ namespace Notino.Charts.Runner
 
             var exitCode = await tcs.Task;
 
+            if (exitCode != 0)
+            {
+                throw new ProcessRunnerException($"Process {fileName} returned non-zero exit code ({exitCode})");
+            }
+
             return new ProcessResult(exitCode, output.ToString());
         }
     }

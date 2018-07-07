@@ -18,6 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // Commands
             services.AddTransient<IUploadChartHandler, UploadChartHandler>();
+            services.AddTransient<IDeleteReleaseHandler, DeleteReleaseHandler>();
+            services.AddTransient<IInstallChartHandler, InstallChartHandler>();
 
             // Queries
             services.AddTransient<IGetChartsHandler, GetChartsHandler>();

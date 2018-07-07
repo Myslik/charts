@@ -15,7 +15,7 @@
             </h4>
             <div class="card-body">
                 <p class="card-text">@chart.Description</p>
-                <a href="#" class="btn btn-primary">Install</a>
+                <a asp-page="Releases/Install" asp-route-chart="@chart.Name" class="btn btn-primary">Install</a>
             </div>
             <div class="card-footer text-muted">
                 @chart.GetLastRelease().Version.ToString()
