@@ -23,7 +23,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li is-active-page asp-page="/Charts/Index" class="nav-item">
                     <a class="nav-link" asp-page="/Charts/Index">Charts</a>
                 </li>
@@ -34,6 +34,12 @@
                     <a class="nav-link" asp-page="/Releases/Index">Releases</a>
                 </li>
             </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span class="navbar-text">
+                    @User.Identity.Name
+                </span>
+            }
         </div>
     </nav>
 

@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace Notino.Charts.Web
 {
@@ -26,10 +29,31 @@ namespace Notino.Charts.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "oidc";
+            }).AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.Cookie.Name = "charts";
+            }).AddOpenIdConnect("oidc", options =>
+            {
+                options.Authority = "http://localhost:8080/auth/realms/master";
+                options.RequireHttpsMetadata = false;
+                options.ClientId = "charts";
+                options.ClientSecret = "24d4af22-0dac-4d38-89b7-0adf31156d2f";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "preferred_username"
+                };
+            });
+
             services
                 .AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
+                    options.Conventions.AuthorizeFolder("/Releases");
                     options.Conventions.AddPageRoute("/Charts/Detail", "Charts/{name}/{version?}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -56,7 +80,7 @@ namespace Notino.Charts.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   redis:
   - appVersion: 4.0.10
-    created: 2018-07-08T10:01:35.5784201+02:00
+    created: 2018-07-08T11:14:23.3555889+02:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -24,7 +24,7 @@ entries:
     - redis-3.6.0.tgz
     version: 3.6.0
   - appVersion: 4.0.10
-    created: 2018-07-08T10:01:35.5774196+02:00
+    created: 2018-07-08T11:14:23.3545889+02:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -46,7 +46,7 @@ entries:
     - redis-3.5.0.tgz
     version: 3.5.0
   - appVersion: 4.0.10
-    created: 2018-07-08T10:01:35.5764211+02:00
+    created: 2018-07-08T11:14:23.3535888+02:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -67,4 +67,4 @@ entries:
     urls:
     - redis-3.4.3.tgz
     version: 3.4.3
-generated: 2018-07-08T10:01:35.5754245+02:00
+generated: 2018-07-08T11:14:23.3525931+02:00
