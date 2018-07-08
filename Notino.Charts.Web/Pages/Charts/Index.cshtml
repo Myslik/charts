@@ -1,5 +1,5 @@
 ﻿@page
-@model Notino.Charts.Web.Pages.ChartsModel
+@model Notino.Charts.Web.Pages.Charts.IndexModel
 @{
     ViewData["Title"] = "Charts";
 }
@@ -11,11 +11,11 @@
     {
         <div class="card shadow" style="width: 18rem;">
             <h4 class="card-header">
-                <a asp-page="./Chart" asp-route-name="@chart.Name">@chart.Name</a>
+                <a asp-page="/Charts/Detail" asp-route-name="@chart.Name">@chart.Name</a>
             </h4>
             <div class="card-body">
                 <p class="card-text">@chart.Description</p>
-                <a asp-page="Releases/Install" asp-route-chart="@chart.Name" class="btn btn-primary">Install</a>
+                <a asp-page="/Releases/Install" asp-route-chart="@chart.Name" class="btn btn-primary">Install</a>
             </div>
             <div class="card-footer text-muted">
                 @chart.GetLastRelease().Version.ToString()

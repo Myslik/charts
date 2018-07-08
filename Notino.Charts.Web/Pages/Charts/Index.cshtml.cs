@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Web.Pages
+namespace Notino.Charts.Web.Pages.Charts
 {
-    public class ChartsModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IGetChartsHandler getChartsHandler;
 
-        public ChartsModel(
+        public IndexModel(
             IGetChartsHandler getChartsHandler)
         {
             this.getChartsHandler = getChartsHandler ?? throw new ArgumentNullException(nameof(getChartsHandler));

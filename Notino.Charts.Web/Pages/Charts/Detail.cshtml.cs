@@ -8,14 +8,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Web.Pages
+namespace Notino.Charts.Web.Pages.Charts
 {
-    public class ChartModel : PageModel
+    public class DetailModel : PageModel
     {
         private readonly IGetChartHandler getChartHandler;
         private readonly IGetChartReadmeHandler getChartReadmeHandler;
 
-        public ChartModel(
+        public DetailModel(
             IGetChartHandler getChartHandler,
             IGetChartReadmeHandler getChartReadmeHandler)
         {

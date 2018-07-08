@@ -1,2 +1,0 @@
-NAME     	REVISION	UPDATED                 	STATUS  	CHART      	NAMESPACE
-web-redis	1       	Thu Jul  5 11:26:46 2018	DEPLOYED	redis-3.6.0	default  

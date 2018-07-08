@@ -1,22 +1,22 @@
 ﻿@page
-@model Notino.Charts.Web.Pages.ClustersModel
+@model Notino.Charts.Web.Pages.Contexts.IndexModel
 @{
-    ViewData["Title"] = "Clusters";
+    ViewData["Title"] = "Contexts";
 }
 
-<h1 class="display-3">Clusters</h1>
+<h1 class="display-3">Contexts</h1>
 
 <div class="row">
-    @foreach (var cluster in Model.Clusters)
+    @foreach (var context in Model.Contexts)
     {
         <div class="card shadow" style="width: 18rem;">
             <h4 class="card-header">
-                @cluster.Name
+                @context.Name
             </h4>
             <div class="card-body">
                 <dl>
                     <dt>Server</dt>
-                    <dd>@cluster.Server</dd>
+                    <dd>@context.Server</dd>
                 </dl>
             </div>
         </div>

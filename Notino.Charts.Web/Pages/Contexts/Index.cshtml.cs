@@ -6,23 +6,23 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Notino.Charts.Web.Pages
+namespace Notino.Charts.Web.Pages.Contexts
 {
-    public class ClustersModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IGetClustersHandler getClustersHandler;
 
-        public ClustersModel(
+        public IndexModel(
             IGetClustersHandler getClustersHandler)
         {
             this.getClustersHandler = getClustersHandler ?? throw new ArgumentNullException(nameof(getClustersHandler));
         }
 
-        public IEnumerable<KubernetesContext> Clusters { get; private set; }
+        public IEnumerable<KubernetesContext> Contexts { get; private set; }
 
         public async Task OnGet()
         {
-            Clusters = await getClustersHandler.HandleAsync(new GetClusters());
+            Contexts = await getClustersHandler.HandleAsync(new GetClusters());
         }
     }
 }
