@@ -2,6 +2,7 @@
 using Notino.Charts.Domain;
 using Notino.Charts.IO;
 using Notino.Charts.Runner;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,9 +67,30 @@ namespace Notino.Charts.Helm
             await processRunner.RunProcessAsync("helm", $"delete --purge {chartName} --kube-context {kubeContext}");
         }
 
-        public async Task Install(string chartName, string version, string releaseName, string kubeContext)
+        public async Task Install(string chartName, string version, string releaseName, string kubeContext, string values)
         {
-            await processRunner.RunProcessAsync("helm", $"install {fileSystem.ChartDirectory}{chartName}-{version}.tgz --name {releaseName} --kube-context {kubeContext}");
+            var valuesFile = Path.GetTempPath() + Guid.NewGuid().ToString() + ".yaml";
+            File.WriteAllText(valuesFile, values);
+            try
+            {
+                await processRunner.RunProcessAsync("helm", $"install {fileSystem.ChartDirectory}{chartName}-{version}.tgz --name {releaseName} --kube-context {kubeContext} -f {valuesFile}");
+            }
+            finally
+            {
+                File.Delete(valuesFile);
+            }
+        }
+
+        public async Task<string> Get(string releaseName, string kubeContext)
+        {
+            var result = await processRunner.RunProcessAsync("helm", $"get {releaseName} --kube-context {kubeContext}");
+            return result.Output;
+        }
+
+        public async Task<string> InspectValues(string chartName, string version)
+        {
+            var result = await processRunner.RunProcessAsync("helm", $"inspect values {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
+            return result.Output;
         }
     }
 }

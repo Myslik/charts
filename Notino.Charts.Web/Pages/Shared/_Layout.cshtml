@@ -34,12 +34,7 @@
                     <a class="nav-link" asp-page="/Releases/Index">Releases</a>
                 </li>
             </ul>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <span class="navbar-text">
-                    @User.Identity.Name
-                </span>
-            }
+            <partial name="_LoginPartial" />
         </div>
     </nav>
 

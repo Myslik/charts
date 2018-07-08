@@ -23,7 +23,12 @@
         @Html.Raw(Model.Readme)
     </div>
     <div class="col-sm-4">
-        <div class="card">
+        <div class="card shadow mb-sm-4">
+            <div class="card-body">
+                <a asp-page="/Releases/Install" asp-route-chart="@Model.Chart.Name" class="btn btn-primary">Install</a>
+            </div>
+        </div>
+        <div class="card shadow">
             <div class="card-body">
                 <h5 class="card-title">Chart Versions</h5>
                 <ul class="list-unstyled">
