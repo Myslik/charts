@@ -39,21 +39,28 @@ namespace Notino.Charts.Web
                 options.Cookie.Name = "charts";
             }).AddOpenIdConnect("oidc", options =>
             {
-                options.Authority = "http://localhost:8080/auth/realms/master";
+                options.Authority = Configuration["OpenIdConnect:Authority"];
                 options.RequireHttpsMetadata = false;
-                options.ClientId = "charts";
-                options.ClientSecret = "24d4af22-0dac-4d38-89b7-0adf31156d2f";
+                options.ClientId = Configuration["OpenIdConnect:ClientId"];
+                options.ClientSecret = Configuration["OpenIdConnect:ClientSecret"];
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    NameClaimType = "preferred_username"
+                    NameClaimType = Configuration["OpenIdConnect:NameClaim"],
+                    RoleClaimType = Configuration["OpenIdConnect:RoleClaim"]
                 };
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsOperator", policy => policy.RequireRole("operator"));
+                options.AddPolicy("IsArchitect", policy => policy.RequireRole("architect"));
             });
 
             services
                 .AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
-                    options.Conventions.AuthorizeFolder("/Releases");
+                    options.Conventions.AuthorizeFolder("/Releases", "IsOperator");
                     options.Conventions.AddPageRoute("/Charts/Detail", "Charts/{name}/{version?}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
