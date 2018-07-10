@@ -5,14 +5,15 @@ namespace Notino.Charts.Domain
     public class HelmRelease
     {
         public HelmRelease(
-            string name, 
-            Chart chart, 
+            string name,
+            string chart,
             string cluster,
             int revision,
             string status)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Chart = chart ?? throw new ArgumentNullException(nameof(chart));
+            ChartName = chart.Substring(0, chart.LastIndexOf("-"));
+            ChartVersion = chart.Substring(chart.LastIndexOf("-") + 1);
             Cluster = cluster ?? throw new ArgumentNullException(nameof(cluster));
             Revision = revision;
             Status = status ?? throw new ArgumentNullException(nameof(status));
@@ -22,10 +23,8 @@ namespace Notino.Charts.Domain
         /// Name of this release
         /// </summary>
         public string Name { get; }
-        /// <summary>
-        /// Chart used for this release
-        /// </summary>
-        public Chart Chart { get; }
+        public string ChartName { get; }
+        public string ChartVersion { get; }
         /// <summary>
         /// Name of Kubernetes cluster as in ~/.kube/config
         /// </summary>

@@ -8,6 +8,10 @@ body {
     margin-bottom: 60px;
 }
 
+.bg-black {
+    background-color: #000;
+}
+
 .footer {
     position: absolute;
     bottom: 0;

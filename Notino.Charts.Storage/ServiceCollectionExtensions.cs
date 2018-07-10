@@ -20,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IUploadChartHandler, UploadChartHandler>();
             services.AddTransient<IDeleteReleaseHandler, DeleteReleaseHandler>();
             services.AddTransient<IInstallChartHandler, InstallChartHandler>();
+            services.AddTransient<IUpgradeReleaseHandler, UpgradeReleaseHandler>();
 
             // Queries
             services.AddTransient<IGetChartsHandler, GetChartsHandler>();
@@ -30,6 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IGetReleasesHandler, GetReleasesHandler>();
             services.AddTransient<IGetReleaseDetailsHandler, GetReleaseDetailsHandler>();
             services.AddTransient<IGetChartValuesHandler, GetChartValuesHandler>();
+            services.AddTransient<IGetReleaseValuesHandler, GetReleaseValuesHandler>();
         }
     }
 }

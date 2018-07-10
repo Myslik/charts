@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 
 namespace Notino.Charts.Commands.Handlers
 {
-    public class InstallChartHandler : IInstallChartHandler
+    public class UpgradeReleaseHandler : IUpgradeReleaseHandler
     {
         private readonly IHelmClient helmClient;
 
-        public InstallChartHandler(
+        public UpgradeReleaseHandler(
             IHelmClient helmClient)
         {
             this.helmClient = helmClient ?? throw new ArgumentNullException(nameof(helmClient));
         }
 
-        public async Task HandleAsync(InstallChart command)
+        public async Task HandleAsync(UpgradeRelease command)
         {
-            await helmClient.Install(command.ReleaseName, command.ChartName, command.Version, command.KubeContext, command.Values);
+            await helmClient.Upgrade(command.ReleaseName, command.ChartName, command.Version, command.KubeContext, command.Values);
         }
     }
 }

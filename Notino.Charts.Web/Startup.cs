@@ -62,6 +62,7 @@ namespace Notino.Charts.Web
                 {
                     options.Conventions.AuthorizeFolder("/Releases", "IsOperator");
                     options.Conventions.AddPageRoute("/Charts/Detail", "Charts/{name}/{version?}");
+                    options.Conventions.AddPageRoute("/Releases/Details", "Releases/{context}/{name}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();

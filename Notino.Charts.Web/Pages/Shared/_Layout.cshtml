@@ -1,6 +1,4 @@
-﻿@addTagHelper ActivePageTagHelper, Notino.Charts.Web.TagHelpers
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -17,8 +15,10 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" asp-page="/Index">Notino</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <a class="navbar-brand" asp-page="/Index">
+            <img alt="notino-logo" src="~/images/notino_logo.png" height="24" />
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,9 +26,6 @@
             <ul class="navbar-nav mr-auto">
                 <li is-active-page asp-page="/Charts/Index" class="nav-item">
                     <a class="nav-link" asp-page="/Charts/Index">Charts</a>
-                </li>
-                <li is-active-page asp-page="/Contexts/Index" class="nav-item">
-                    <a class="nav-link" asp-page="/Contexts/Index">Contexts</a>
                 </li>
                 <li is-active-page asp-page="/Releases/Index" class="nav-item">
                     <a class="nav-link" asp-page="/Releases/Index">Releases</a>

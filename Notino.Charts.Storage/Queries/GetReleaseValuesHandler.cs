@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 
 namespace Notino.Charts.Queries.Handlers
 {
-    public class GetReleaseDetailsHandler : IGetReleaseDetailsHandler
+    public class GetReleaseValuesHandler : IGetReleaseValuesHandler
     {
         private readonly IHelmClient helmClient;
 
-        public GetReleaseDetailsHandler(
+        public GetReleaseValuesHandler(
             IHelmClient helmClient)
         {
             this.helmClient = helmClient ?? throw new ArgumentNullException(nameof(helmClient));
         }
 
-        public async Task<string> HandleAsync(GetReleaseDetails query)
+        public async Task<string> HandleAsync(GetReleaseValues query)
         {
-            return await helmClient.Status(query.ReleaseName, query.KubeContext);
+            return await helmClient.GetValues(query.ReleaseName, query.KubeContext);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Notino.Charts.Helm
             return records.Select(c =>
                 new HelmRelease(
                     c.Name,
-                    new Chart(c.Chart),
+                    c.Chart,
                     kubeContext,
                     c.Revision,
                     c.Status));
@@ -67,7 +67,7 @@ namespace Notino.Charts.Helm
             await processRunner.RunProcessAsync("helm", $"delete --purge {chartName} --kube-context {kubeContext}");
         }
 
-        public async Task Install(string chartName, string version, string releaseName, string kubeContext, string values)
+        public async Task Install(string releaseName, string chartName, string version, string kubeContext, string values)
         {
             var valuesFile = Path.GetTempPath() + Guid.NewGuid().ToString() + ".yaml";
             File.WriteAllText(valuesFile, values);
@@ -90,6 +90,32 @@ namespace Notino.Charts.Helm
         public async Task<string> InspectValues(string chartName, string version)
         {
             var result = await processRunner.RunProcessAsync("helm", $"inspect values {fileSystem.ChartDirectory}{chartName}-{version}.tgz");
+            return result.Output;
+        }
+
+        public async Task<string> Status(string releaseName, string kubeContext)
+        {
+            var result = await processRunner.RunProcessAsync("helm", $"status {releaseName} --kube-context {kubeContext}");
+            return result.Output;
+        }
+
+        public async Task Upgrade(string releaseName, string chartName, string version, string kubeContext, string values)
+        {
+            var valuesFile = Path.GetTempPath() + Guid.NewGuid().ToString() + ".yaml";
+            File.WriteAllText(valuesFile, values);
+            try
+            {
+                await processRunner.RunProcessAsync("helm", $"upgrade {releaseName} {fileSystem.ChartDirectory}{chartName}-{version}.tgz --kube-context {kubeContext} -f {valuesFile}");
+            }
+            finally
+            {
+                File.Delete(valuesFile);
+            }
+        }
+
+        public async Task<string> GetValues(string releaseName, string kubeContext)
+        {
+            var result = await processRunner.RunProcessAsync("helm", $"get values {releaseName} --kube-context {kubeContext}");
             return result.Output;
         }
     }

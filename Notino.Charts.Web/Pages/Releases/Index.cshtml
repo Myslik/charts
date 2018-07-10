@@ -22,12 +22,13 @@
             @foreach (var release in Model.Releases)
             {
                 <tr>
-                    <td class="align-middle" style="width: 140px; white-space: nowrap;">
-                        <a asp-page="/Releases/Details" asp-route-name="@release.Name" asp-route-context="@release.Cluster" class="btn btn-sm btn-primary">Details</a>
+                    <td class="align-middle" style="width: 200px; white-space: nowrap;">
+                        <a asp-page="/Releases/Upgrade" asp-route-name="@release.Name" asp-route-context="@release.Cluster" class="btn btn-sm btn-primary">Upgrade</a>
+                        <a asp-page="/Releases/Details" asp-route-name="@release.Name" asp-route-context="@release.Cluster" class="btn btn-sm btn-secondary">Details</a>
                         <a asp-page="/Releases/Delete" asp-route-name="@release.Name" asp-route-context="@release.Cluster" class="btn btn-sm btn-danger">Delete</a>
                     </td>
                     <td class="align-middle">@release.Name</td>
-                    <td class="align-middle">@release.Chart.Name</td>
+                    <td class="align-middle">@release.ChartName</td>
                     <td class="align-middle">@release.Cluster</td>
                     <td class="align-middle">@release.Revision</td>
                     <td class="align-middle">@release.Status</td>

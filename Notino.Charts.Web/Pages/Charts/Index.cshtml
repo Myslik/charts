@@ -9,7 +9,7 @@
 <div class="row">
     @foreach (var chart in Model.Charts)
     {
-        <div class="card shadow" style="width: 18rem;">
+        <div class="card mr-sm-4 shadow" style="width: 18rem;">
             <h4 class="card-header">
                 <a asp-page="/Charts/Detail" asp-route-name="@chart.Name">@chart.Name</a>
             </h4>
