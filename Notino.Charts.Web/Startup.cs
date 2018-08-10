@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IO;
 
 namespace Notino.Charts.Web
 {
@@ -61,7 +63,7 @@ namespace Notino.Charts.Web
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Releases", "IsOperator");
-                    options.Conventions.AddPageRoute("/Charts/Detail", "Charts/{name}/{version?}");
+                    options.Conventions.AddPageRoute("/Chart/Detail", "Chart/{name}/{version?}");
                     options.Conventions.AddPageRoute("/Releases/Details", "Releases/{context}/{name}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -86,10 +88,16 @@ namespace Notino.Charts.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "charts")),
+                RequestPath = "/charts"
+            });
         }
     }
 }

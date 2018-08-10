@@ -36,11 +36,11 @@
                     {
                         if (Model.Release.Version == release.Version)
                         {
-                            <li><strong><a asp-page="/Charts/Detail" asp-route-name="@Model.Chart.Name" asp-route-version="@release.Version.ToString()">@release.Version.ToString()</a></strong></li>
+                            <li><strong><a asp-page="/Chart/Detail" asp-route-name="@Model.Chart.Name" asp-route-version="@release.Version.ToString()">@release.Version.ToString()</a></strong></li>
                         }
                         else
                         {
-                            <li><a asp-page="/Charts/Detail" asp-route-name="@Model.Chart.Name" asp-route-version="@release.Version.ToString()">@release.Version.ToString()</a></li>
+                            <li><a asp-page="/Chart/Detail" asp-route-name="@Model.Chart.Name" asp-route-version="@release.Version.ToString()">@release.Version.ToString()</a></li>
                         }
                     }
                 </ul>
