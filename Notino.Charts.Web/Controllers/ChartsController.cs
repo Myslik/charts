@@ -29,6 +29,7 @@ namespace Notino.Charts.Web.Controllers
         }
 
         [HttpGet]
+        [HttpGet("index.yaml")]
         public async Task<ActionResult> Get()
         {
             var indexFile = await memoryCache.GetOrCreateAsync("index.yaml", async e =>
@@ -36,6 +37,15 @@ namespace Notino.Charts.Web.Controllers
                 return await getChartIndexFile.HandleAsync(new GetChartIndex());
             });
             return new FileContentResult(Encoding.UTF8.GetBytes(indexFile), "text/yaml");
+        }
+
+        [HttpPut("{filename}")]
+        public async Task<ActionResult> Upload(string filename)
+        {
+            await uploadChart.HandleAsync(new UploadChart(filename, Request.Body));
+            memoryCache.Remove("index.yaml");
+
+            return Ok();
         }
 
         [HttpPost]
