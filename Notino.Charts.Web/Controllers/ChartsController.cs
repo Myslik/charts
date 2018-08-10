@@ -6,6 +6,7 @@ using Notino.Charts.Commands.Handlers;
 using Notino.Charts.Queries;
 using Notino.Charts.Queries.Handlers;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,19 @@ namespace Notino.Charts.Web.Controllers
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             this.getChartIndexFile = getChartIndexFile ?? throw new ArgumentNullException(nameof(getChartIndexFile));
             this.uploadChart = uploadChart ?? throw new ArgumentNullException(nameof(uploadChart));
+        }
+
+        [HttpGet("{filename}")]
+        public ActionResult Get(string filename)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "charts", filename);
+            if (System.IO.File.Exists(path))
+            {
+                var stream = System.IO.File.OpenRead(path);
+                return File(stream, "application/tar");
+            }
+
+            return NotFound();
         }
 
         [HttpGet]
